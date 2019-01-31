@@ -1,0 +1,20 @@
+{
+    "name": "pmaxs/path2query-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony Path2queryBundle",
+    "homepage": "https://github.com/pmaxs/Path2queryBundle",
+    "keywords": ["symfony", "bundle", "path2query"],
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "require": {
+        "php": "^5.5.9 || ^7.0",
+        "symfony/framework-bundle": "^2.8 || ^3.0 || ^4.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Pmaxs\\Path2queryBundle\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,13 @@
+services:
+    pmaxs_path2query.router:
+        class: Pmaxs\Path2queryBundle\Router\Path2QueryRouter
+        parent: router.default
+        public: false
+
+    pmaxs_path2query.listener.path2query:
+        class: Pmaxs\Path2queryBundle\EventListener\Path2QueryListener
+        arguments:
+            - "@=service('router').getRouteCollection()"
+        public: false
+        tags:
+            - { name: kernel.event_subscriber }
