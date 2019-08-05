@@ -65,7 +65,7 @@ class Path2QueryRouter extends Path2QueryRouterTmp
             }
         }
 
-        $parameters[self::QUERY_PARAM] = $query;
+        $parameters[self::QUERY_PARAM] = ltrim($query, '/');
 
         return parent::generate($name, $parameters, $referenceType);
     }
