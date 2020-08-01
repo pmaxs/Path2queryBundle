@@ -7,7 +7,7 @@ services:
     pmaxs_path2query.listener.path2query:
         class: Pmaxs\Path2queryBundle\EventListener\Path2QueryListener
         arguments:
-            - "@=service('router').getRouteCollection()"
+            - "@router"
         public: false
         tags:
             - { name: kernel.event_subscriber }

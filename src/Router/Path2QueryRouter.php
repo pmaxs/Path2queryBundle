@@ -5,7 +5,9 @@ namespace Pmaxs\Path2queryBundle\Router;
 if (class_exists('\\JMS\\I18nRoutingBundle\\Router\\I18nRouter')) {
     class Path2QueryRouterTmp extends \JMS\I18nRoutingBundle\Router\I18nRouter
     {
-        protected function getPath2QueryRouteCollection()
+        const ROUTER_ORIGIN = 'JMS';
+
+        public function getPath2QueryRouteCollection()
         {
             return $this->getOriginalRouteCollection();
         }
@@ -14,7 +16,9 @@ if (class_exists('\\JMS\\I18nRoutingBundle\\Router\\I18nRouter')) {
 } else {
     class Path2QueryRouterTmp extends \Symfony\Bundle\FrameworkBundle\Routing\Router
     {
-        protected function getPath2QueryRouteCollection()
+        const ROUTER_ORIGIN = 'SYMFONY';
+
+        public function getPath2QueryRouteCollection()
         {
             return $this->getRouteCollection();
         }
@@ -33,15 +37,35 @@ class Path2QueryRouter extends Path2QueryRouterTmp
      */
     const QUERY_PARAM = '__path2query_param__';
 
-    /**
-     * {@inheritdoc}
-     */
+    public function getPath2QueryRouteCollection()
+    {
+        return parent::getPath2QueryRouteCollection();
+    }
+
     public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
-        $route = $this->getPath2QueryRouteCollection()->get($name);
+        if ('JMS' == self::ROUTER_ORIGIN) {
+            $route = $this->getPath2QueryRouteCollection()->get($name);
+        } else {
+            $generator = $this->getGenerator();
+            $locale = $parameters['_locale']
+                ?? $generator->getContext()->getParameter('_locale')
+                    ?: $this->defaultLocale;
+            $route = null;
 
-        if (is_null($route->getDefault(self::ENABLED_PARAM)) || isset($parameters[self::QUERY_PARAM])) {
-            return parent::generate($name, $parameters, $referenceType);
+            if (null !== $locale) {
+                $routes = $this->getPath2QueryRouteCollection();
+
+                do {
+                    if (null !== ($route = $routes->get($name.'.'.$locale)) && $route->getDefault('_canonical_route') === $name) {
+                        break;
+                    }
+                } while (false !== $locale = strstr($locale, '_', true));
+            }
+
+            if (empty($route) || empty($route->getDefault(self::ENABLED_PARAM)) || isset($parameters[self::QUERY_PARAM])) {
+                return parent::generate($name, $parameters, $referenceType);
+            }
         }
 
         $routeVars = $route->compile()->getVariables();

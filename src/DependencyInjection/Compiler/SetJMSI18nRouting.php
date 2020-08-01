@@ -19,8 +19,5 @@ class SetJMSI18nRouting implements CompilerPassInterface
 
         $container->findDefinition('pmaxs_path2query.router')
             ->setParent('jms_i18n_routing.router');
-
-        $container->findDefinition('pmaxs_path2query.listener.path2query')
-            ->replaceArgument(0, new Expression("service('router').getOriginalRouteCollection()"));
     }
 }
