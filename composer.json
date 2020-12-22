@@ -7,7 +7,7 @@
     "minimum-stability": "stable",
     "license": "MIT",
     "require": {
-        "symfony/framework-bundle": "^5.1"
+        "symfony/framework-bundle": "^5.2"
     },
     "require-dev": {
     },

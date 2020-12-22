@@ -12,6 +12,6 @@ class SetRouterPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $container->setAlias('router', 'pmaxs_path2query.router')->setPublic(true);
+        $container->setAlias('router', 'pmaxs_path2query.router');
     }
 }
