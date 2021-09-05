@@ -44,8 +44,10 @@ class Path2QueryRouter extends Path2QueryRouterTmp
 
     public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH)
     {
+        $routes = $this->getPath2QueryRouteCollection();
+
         if ('JMS' == self::ROUTER_ORIGIN) {
-            $route = $this->getPath2QueryRouteCollection()->get($name);
+            $route = $routes->get($name);
         } else {
             $generator = $this->getGenerator();
             $locale = $parameters['_locale']
@@ -54,8 +56,6 @@ class Path2QueryRouter extends Path2QueryRouterTmp
             $route = null;
 
             if (null !== $locale) {
-                $routes = $this->getPath2QueryRouteCollection();
-
                 do {
                     if (null !== ($route = $routes->get($name.'.'.$locale)) && $route->getDefault('_canonical_route') === $name) {
                         break;
@@ -63,9 +63,13 @@ class Path2QueryRouter extends Path2QueryRouterTmp
                 } while (false !== $locale = strstr($locale, '_', true));
             }
 
-            if (empty($route) || empty($route->getDefault(self::ENABLED_PARAM)) || isset($parameters[self::QUERY_PARAM])) {
-                return parent::generate($name, $parameters, $referenceType);
+            if (empty($route)) {
+                $route = $routes->get($name);
             }
+        }
+
+        if (empty($route) || empty($route->getDefault(self::ENABLED_PARAM)) || isset($parameters[self::QUERY_PARAM])) {
+            return parent::generate($name, $parameters, $referenceType);
         }
 
         $routeVars = $route->compile()->getVariables();
