@@ -10,7 +10,7 @@ Installation
 Usage
 -----
 
-Add param `__path2query__` with default value `1`.
+Add param `__path2query__` with default value `""` and requirement `".*"`.
 Such routes are processed by this bundle in order to add query vars to Request from path.
 
 Ex.:  
@@ -20,7 +20,7 @@ Ex.:
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/xxx", defaults={"__path2query__"=1})
+     * @Route("/xxx/{__path2query__}", requirements={"__path2query__"=".*"}, defaults={"__path2query__"=""})
      */
     public function indexAction(Request $request)
     {

@@ -11,7 +11,8 @@ class PmaxsPath2queryBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
-        $container->addCompilerPass(new SetJMSI18nRouting());
+        parent::build($container);
+
         $container->addCompilerPass(new SetRouterPass());
     }
 }
