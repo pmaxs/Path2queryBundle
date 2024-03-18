@@ -8,8 +8,8 @@ class Path2QueryRouter extends \Symfony\Bundle\FrameworkBundle\Routing\Router
 {
     const QUERY_PARAM = '__path2query__';
 
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
-        return parent::setOptions(array_merge(['generator_class' => Path2QueryUrlGenerator::class], $options));
+        parent::setOptions(array_merge(['generator_class' => Path2QueryUrlGenerator::class], $options));
     }
 }

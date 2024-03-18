@@ -21,7 +21,7 @@ class Path2QueryUrlGenerator extends CompiledUrlGenerator
         $this->defaultLocale = $defaultLocale;
     }
 
-    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH)
+    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         $locale = $parameters['_locale']
             ?? $this->context->getParameter('_locale')
