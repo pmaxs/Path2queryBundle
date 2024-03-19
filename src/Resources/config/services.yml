@@ -2,6 +2,8 @@ services:
     pmaxs_path2query.router:
         class: Pmaxs\Path2queryBundle\Router\Path2QueryRouter
         parent: router.default
+        arguments:
+            $container: "@service_container"
         public: false
 
     pmaxs_path2query.listener.path2query:
